@@ -1,0 +1,66 @@
+{
+  "npm-intellisense.importES6": true,
+    "npm-intellisense.importQuotes": "'",
+    "npm-intellisense.importLinebreak": ";\r\n",
+    "npm-intellisense.importDeclarationType": "const",
+ "typescript.suggest.paths": false ,
+ "javascript.suggest.paths": false,
+ "editor.minimap.enabled": false,
+ "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules":true,
+    "**/.next":true
+ },
+ "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.next":true
+ },
+   "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": false,
+   "search.searchOnType": true,
+  "search.followSymlinks": false,
+  "search.collapseResults": "auto",
+  "search.maxResults": 2000,
+  "search.useIgnoreFiles": true,
+  "search.useGlobalIgnoreFiles": true,
+   "terminal.integrated.gpuAcceleration": "off",
+  "terminal.integrated.defaultProfile.linux": "bash", // Or "zsh", "fish" depending on your shell
+  "terminal.integrated.enableFileLinks": "on", // Clickable file links in terminal
+
+  // TypeScript/JavaScript Specific
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "javascript.updateImportsOnFileMove.enabled": "always", // Auto-update imports on file moves
+  "typescript.updateImportsOnFileMove.enabled": "always", // Auto-update imports on file moves
+  "javascript.format.semicolons": "insert", // Or "remove" based on preference
+  "typescript.format.semicolons": "insert", // Or "remove" based on preference
+  "javascript.inlayHints.parameterNames.enabled": "all", // Show parameter names
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true, // Show parameter types
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true, // Show variable types
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true, // Show function return types
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true, // Show property types in classes/interfaces
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.suggest.autoImports": true, // Auto-import components/modules
+  "typescript.suggest.autoImports": true, // Auto-import components/modules
+"editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit"
+},
+"css.format.enable": true,
+"scss.completion.triggerPropertyValueCompletion": true,
+  // Hot Exit
+  "workbench.editor.empty.hint": "hidden", // Hide "Open folder" hint
+  "workbench.editor.showTabs": "multiple", // Always show tabs
+  "workbench.startupEditor": "newUntitledFile", // Start with a blank file
+  "workbench.activityBar.location": "default", // Place activity bar on left
+  "workbench.statusBar.visible": true, // Show status bar
+  "workbench.tree.renderIndentGuides": "always" // Always show indent guides in file explorer
+}

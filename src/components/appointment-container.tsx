@@ -1,15 +1,18 @@
-import React from "react";
-import { BookAppointment } from "./forms/book-appointment";
-import { getPatientById } from "@/utils/services/patient";
-import { getDoctors } from "@/utils/services/doctor";
+import { getDoctors } from '@/utils/services/doctor'
+import { getPatientById } from '@/utils/services/patient'
+
+import { BookAppointment } from './forms/book-appointment'
 
 export const AppointmentContainer = async ({ id }: { id: string }) => {
-  const { data } = await getPatientById(id);
-  const { data: doctors } = await getDoctors();
+	const { data } = await getPatientById(id)
+	const { data: doctors } = await getDoctors()
 
-  return (
-    <div>
-      <BookAppointment data={data!} doctors={doctors!} />
-    </div>
-  );
-};
+	return (
+		<div>
+			<BookAppointment
+				data={data!}
+				doctors={doctors!}
+			/>
+		</div>
+	)
+}

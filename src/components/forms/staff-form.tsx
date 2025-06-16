@@ -1,167 +1,164 @@
-"use client";
+'use client'
 
-import { DoctorSchema, StaffSchema } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import React, { useActionState, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
-import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
-import { Form } from "../ui/form";
-import { CustomInput, SwitchInput } from "../custom-input";
-import { SPECIALIZATION } from "@/utils/seetings";
-import { Label } from "../ui/label";
-import { toast } from "sonner";
-import { createNewDoctor, createNewStaff } from "@/app/actions/admin";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import type { z } from 'zod'
+
+import { createNewStaff } from '@/actions/admin'
+import { StaffSchema } from '@/lib/schema'
+
+import { CustomInput } from '../custom-input'
+import { Button } from '../ui/button'
+import { Form } from '../ui/form'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet'
 
 const TYPES = [
-  { label: "Nurse", value: "NURSE" },
-  { label: "Laboratory", value: "LAB_TECHNICIAN" },
-];
+	{ label: 'Nurse', value: 'NURSE' },
+	{ label: 'Laboratory', value: 'LAB_TECHNICIAN' },
+]
 
 export const StaffForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false)
+	const router = useRouter()
 
-  const form = useForm<z.infer<typeof StaffSchema>>({
-    resolver: zodResolver(StaffSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      role: "NURSE",
-      address: "",
-      department: "",
-      img: "",
-      password: "",
-      license_number: "",
-    },
-  });
+	const form = useForm<z.infer<typeof StaffSchema>>({
+		resolver: zodResolver(StaffSchema),
+		defaultValues: {
+			name: '',
+			email: '',
+			phone: '',
+			role: 'NURSE',
+			address: '',
+			department: '',
+			img: '',
+			password: '',
+			license_number: '',
+		},
+	})
 
-  const handleSubmit = async (values: z.infer<typeof StaffSchema>) => {
-    try {
-      setIsLoading(true);
-      const resp = await createNewStaff(values);
+	const handleSubmit = async (values: z.infer<typeof StaffSchema>) => {
+		try {
+			setIsLoading(true)
+			const resp = await createNewStaff(values)
 
-      if (resp.success) {
-        toast.success("Staff added successfully!");
+			if (resp.success) {
+				toast.success('Staff added successfully!')
 
-        form.reset();
-        router.refresh();
-      } else if (resp.error) {
-        toast.error(resp.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+				form.reset()
+				router.refresh()
+			} else if (resp.error) {
+				toast.error(resp.message)
+			}
+		} catch (_error) {
+			toast.error('Something went wrong')
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button>
-          <Plus size={20} />
-          New Staff
-        </Button>
-      </SheetTrigger>
+	return (
+		<Sheet>
+			<SheetTrigger asChild>
+				<Button>
+					<Plus size={20} />
+					New Staff
+				</Button>
+			</SheetTrigger>
 
-      <SheetContent className="rounded-xl rounded-r-xl md:h-[90%] md:top-[5%] md:right-[1%] w-full overflow-y-scroll">
-        <SheetHeader>
-          <SheetTitle>Add New Staff</SheetTitle>
-        </SheetHeader>
+			<SheetContent className="rounded-xl rounded-r-xl md:h-[90%] md:top-[5%] md:right-[1%] w-full overflow-y-scroll">
+				<SheetHeader>
+					<SheetTitle>Add New Staff</SheetTitle>
+				</SheetHeader>
 
-        <div>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleSubmit)}
-              className="space-y-8 mt-5 2xl:mt-10"
-            >
-              <CustomInput
-                type="radio"
-                selectList={TYPES}
-                control={form.control}
-                name="role"
-                label="Type"
-                placeholder=""
-                defaultValue="NURSE"
-              />
+				<div>
+					<Form {...form}>
+						<form
+							className="space-y-8 mt-5 2xl:mt-10"
+							onSubmit={form.handleSubmit(handleSubmit)}
+						>
+							<CustomInput
+								control={form.control}
+								defaultValue="NURSE"
+								label="Type"
+								name="role"
+								placeholder=""
+								selectList={TYPES}
+								type="radio"
+							/>
 
-              <CustomInput
-                type="input"
-                control={form.control}
-                name="name"
-                placeholder="Staff name"
-                label="Full Name"
-              />
+							<CustomInput
+								control={form.control}
+								label="Full Name"
+								name="name"
+								placeholder="Staff name"
+								type="input"
+							/>
 
-              <div className="flex items-center gap-2">
-                <CustomInput
-                  type="input"
-                  control={form.control}
-                  name="email"
-                  placeholder="john@example.com"
-                  label="Email Address"
-                />
+							<div className="flex items-center gap-2">
+								<CustomInput
+									control={form.control}
+									label="Email Address"
+									name="email"
+									placeholder="john@example.com"
+									type="input"
+								/>
 
-                <CustomInput
-                  type="input"
-                  control={form.control}
-                  name="phone"
-                  placeholder="9225600735"
-                  label="Contact Number"
-                />
-              </div>
+								<CustomInput
+									control={form.control}
+									label="Contact Number"
+									name="phone"
+									placeholder="9225600735"
+									type="input"
+								/>
+							</div>
 
-              <CustomInput
-                type="input"
-                control={form.control}
-                name="license_number"
-                placeholder="License Number"
-                label="License Number"
-              />
-              <CustomInput
-                type="input"
-                control={form.control}
-                name="department"
-                placeholder="Children's ward"
-                label="Department"
-              />
+							<CustomInput
+								control={form.control}
+								label="License Number"
+								name="license_number"
+								placeholder="License Number"
+								type="input"
+							/>
+							<CustomInput
+								control={form.control}
+								label="Department"
+								name="department"
+								placeholder="Children's ward"
+								type="input"
+							/>
 
-              <CustomInput
-                type="input"
-                control={form.control}
-                name="address"
-                placeholder="1479 Street, Apt 1839-G, NY"
-                label="Address"
-              />
+							<CustomInput
+								control={form.control}
+								label="Address"
+								name="address"
+								placeholder="1479 Street, Apt 1839-G, NY"
+								type="input"
+							/>
 
-              <CustomInput
-                type="input"
-                control={form.control}
-                name="password"
-                placeholder=""
-                label="Password"
-                inputType="password"
-              />
+							<CustomInput
+								control={form.control}
+								inputType="password"
+								label="Password"
+								name="password"
+								placeholder=""
+								type="input"
+							/>
 
-              <Button type="submit" disabled={isLoading} className="w-full">
-                Submit
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
-};
+							<Button
+								className="w-full"
+								disabled={isLoading}
+								type="submit"
+							>
+								Submit
+							</Button>
+						</form>
+					</Form>
+				</div>
+			</SheetContent>
+		</Sheet>
+	)
+}

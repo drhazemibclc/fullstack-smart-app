@@ -1,0 +1,141 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.4/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"root": "."
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"maxSize": 7340032,
+		"includes": ["./src/**/*.{js,jsx,ts,tsx}", "./src/*/db/schema"]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 100,
+		"useEditorconfig": true
+	},
+	"linter": {
+		"domains": {
+			"next": "all",
+			"react": "recommended",
+			"solid": "recommended",
+			"test": "recommended"
+		},
+		"enabled": true,
+		"rules": {
+			"a11y": {
+				"recommended": true
+			},
+			"complexity": {
+				"recommended": true
+			},
+			"correctness": {
+				"noUndeclaredDependencies": "off",
+				"recommended": true
+			},
+			"nursery": {
+				"noUnknownAtRule": "off",
+				"recommended": true,
+				"useExplicitType": "off"
+			},
+			"performance": {
+				"recommended": true
+			},
+			"recommended": true,
+			"security": {
+				"recommended": true
+			},
+			"style": {
+				"noNonNullAssertion": {
+					"fix": "unsafe",
+					"level": "warn"
+				},
+				"recommended": true,
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useConst": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error"
+			},
+			"suspicious": {
+				"noConsole": "off",
+				"noFallthroughSwitchClause": "error",
+				"noReactSpecificProps": "off",
+				"recommended": true
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"arrowParentheses": "asNeeded",
+			"attributePosition": "multiline",
+			"bracketSameLine": false,
+			"bracketSpacing": true,
+			"enabled": true,
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"quoteStyle": "single",
+			"semicolons": "asNeeded",
+			"trailingCommas": "all"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":URL:",
+							":BLANK_LINE:",
+							":BLANK_LINE:",
+							":NODE:",
+							":BUN:",
+							":BLANK_LINE:",
+							":BLANK_LINE:",
+							":PACKAGE_WITH_PROTOCOL:",
+							":PACKAGE:",
+							":BLANK_LINE:",
+							":BLANK_LINE:",
+							":ALIAS:",
+							"@repo/**",
+							":BLANK_LINE:",
+							":BLANK_LINE:",
+							":PATH:",
+							":BLANK_LINE:"
+						]
+					}
+				},
+				"recommended": true,
+				"useSortedAttributes": "on",
+				"useSortedKeys": "off",
+				"useSortedProperties": "on"
+			}
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab",
+			"indentWidth": 2,
+			"lineEnding": "lf",
+			"lineWidth": 80
+		},
+		"linter": {
+			"enabled": true
+		}
+	}
+}

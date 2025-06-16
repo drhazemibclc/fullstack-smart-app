@@ -1,19 +1,19 @@
 type RouteAccessProps = {
-  [key: string]: string[];
-};
+	[key: string]: string[]
+}
 
 export const routeAccess: RouteAccessProps = {
-  "/admin(.*)": ["admin"],
-  "/patient(.*)": ["patient", "admin", "doctor", "nurse"],
-  "/doctor(.*)": ["doctor"],
-  "/staff(.*)": ["nurse", "lab_technician", "cashier"],
-  "/record/users": ["admin"],
-  "/record/doctors": ["admin"],
-  "/record/doctors(.*)": ["admin", "doctor"],
-  "/record/staffs": ["admin", "doctor"],
-  "/record/patients": ["admin", "doctor", "nurse"],
-  "/patient/registrations": ["patient"],
-};
+	'/admin(.*)': ['admin'],
+	'/patient(.*)': ['patient', 'admin', 'doctor', 'nurse'],
+	'/doctor(.*)': ['doctor'],
+	'/staff(.*)': ['nurse', 'lab_technician', 'cashier'],
+	'/record/users': ['admin'],
+	'/record/doctors': ['admin'],
+	'/record/doctors(.*)': ['admin', 'doctor'],
+	'/record/staffs': ['admin', 'doctor'],
+	'/record/patients': ['admin', 'doctor', 'nurse'],
+	'/patient/registrations': ['patient'],
+}
 
 // import { createRouteMatcher } from "@clerk/nextjs/server";
 
