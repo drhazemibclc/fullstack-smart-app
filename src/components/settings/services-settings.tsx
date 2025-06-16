@@ -47,7 +47,7 @@ export const ServiceSettings = async () => {
 			<td className="hidden md:table-cell capitalize">{item?.price?.toFixed(2)}</td>
 
 			<td className="hidden xl:table-cell w-[50%]">
-				<p className="line-clamp-1">{item.description!}</p>
+				<p className="line-clamp-1">{item.description ?? 'No description'}</p>
 			</td>
 			<td>
 				{/* <div className="flex items-center gap-2">
@@ -84,7 +84,7 @@ export const ServiceSettings = async () => {
 			<CardContent>
 				<Table
 					columns={columns}
-					data={data!}
+					data={data ?? []} // Provide empty array fallback
 					renderRow={renderRow}
 				/>
 			</CardContent>

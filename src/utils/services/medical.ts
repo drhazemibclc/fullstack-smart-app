@@ -31,7 +31,10 @@ export const getVitalSignData = async (id: string) => {
 	}))
 
 	const formattedData = data.map(record => {
-		const heartRates = record.heartRate.split('-').map(rate => Number.parseInt(rate.trim(), 10))
+		const heartRates = record.heartRate
+			.toString()
+			.split('-')
+			.map(rate => Number.parseInt(rate.trim(), 10))
 
 		return {
 			label: format(new Date(record.created_at), 'MMM d'),

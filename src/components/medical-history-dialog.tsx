@@ -10,7 +10,7 @@ interface DataProps {
 	doctor_id: string | number
 	label: React.ReactNode
 }
-export const MedicalHistoryDialog = async ({ id, patientId, doctor_id, label }: DataProps) => {
+export const MedicalHistoryDialog = async ({ label }: DataProps) => {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>

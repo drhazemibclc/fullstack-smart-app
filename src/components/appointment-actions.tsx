@@ -17,7 +17,6 @@ interface ActionsProps {
 }
 
 export const AppointmentActionOptions = async ({
-	userId,
 	patientId,
 	doctorId,
 	status,

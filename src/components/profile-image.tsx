@@ -16,22 +16,23 @@ export const ProfileImage = ({
 	textClassName?: string
 	bgColor?: string
 }) => {
-	if (url)
+	if (url) {
 		return (
 			<Image
 				alt={name}
-				className={cn('flex md:hidden lg:block w-10 h-10 rounded-full object-cover', className)}
+				className={cn('flex h-10 w-10 rounded-full object-cover md:hidden lg:block', className)}
 				height={40}
 				src={url}
 				width={40}
 			/>
 		)
+	}
 
 	if (name) {
 		return (
 			<div
 				className={cn(
-					'flex md:hidden lg:flex w-10 h-10 rounded-full text-white text-base items-center justify-center font-light',
+					'flex h-10 w-10 items-center justify-center rounded-full font-light text-base text-white md:hidden lg:flex',
 					className,
 				)}
 				style={{ backgroundColor: bgColor || '#2563eb' }}
@@ -40,4 +41,7 @@ export const ProfileImage = ({
 			</div>
 		)
 	}
+
+	// Return null if neither url nor name is provided
+	return null
 }

@@ -27,56 +27,54 @@ type PatientFormValues = z.infer<typeof PatientFormSchema>
 export const NewPatient = ({ data, type }: DataProps) => {
 	const { user } = useUser()
 	const [loading, setLoading] = useState(false)
-	const [_imgURL, _setImgURL] = useState<any>()
 	const router = useRouter()
 
 	const userId = user?.id ?? ''
 
 	const form = useForm<PatientFormValues>({
-  resolver: zodResolver(PatientFormSchema),
-  defaultValues: {
-    first_name: user?.firstName || '',
-    last_name: user?.lastName || '',
-    email: user?.emailAddresses[0].emailAddress || '',
-    phone: user?.phoneNumbers?.toString() || '',
-    address: '',
-    date_of_birth: new Date(),
-    gender: 'MALE',
-    marital_status: 'SINGLE',
-    emergency_contact_name: '',
-    emergency_contact_number: '',
-    relation: 'mother',
-    blood_group: 'A_NEG',
-    allergies: '',
-    medical_conditions: '',
-    insurance_number: '',
-    insurance_provider: '',
-    medical_history: '',
-    privacy_consent: false,
-    service_consent: false,
-    medical_consent: false,
-  },
-})
-
+		resolver: zodResolver(PatientFormSchema),
+		defaultValues: {
+			first_name: user?.firstName || '',
+			last_name: user?.lastName || '',
+			email: user?.emailAddresses[0].emailAddress || '',
+			phone: user?.phoneNumbers?.toString() || '',
+			address: '',
+			date_of_birth: new Date(),
+			gender: 'MALE',
+			marital_status: 'SINGLE',
+			emergency_contact_name: '',
+			emergency_contact_number: '',
+			relation: 'mother',
+			blood_group: 'A_NEG',
+			allergies: '',
+			medical_conditions: '',
+			insurance_number: '',
+			insurance_provider: '',
+			medical_history: '',
+			privacy_consent: false,
+			service_consent: false,
+			medical_consent: false,
+		},
+	})
 
 	const onSubmit: SubmitHandler<PatientFormValues> = async values => {
-  setLoading(true)
+		setLoading(true)
 
-  const res =
-    type === 'create'
-      ? await createNewPatient(values, userId!)
-      : await updatePatient(values, userId!)
+		const res =
+			type === 'create'
+				? await createNewPatient(values, userId ?? 'N/A')
+				: await updatePatient(values, userId ?? 'N/A')
 
-  setLoading(false)
+		setLoading(false)
 
-  if (res?.success) {
-    toast.success(res.msg)
-    form.reset()
-    router.push('/patient')
-  } else {
-    toast.error('Failed to create patient')
-  }
-}
+		if (res?.success) {
+			toast.success(res.msg)
+			form.reset()
+			router.push('/patient')
+		} else {
+			toast.error('Failed to create patient')
+		}
+	}
 
 	useEffect(() => {
 		if (type === 'update' && data) {
@@ -87,7 +85,7 @@ export const NewPatient = ({ data, type }: DataProps) => {
 		} else if (type === 'create') {
 			form.reset(defaultUserData)
 		}
-	}, [data, type])
+	}, [data, type, form.reset])
 
 	return (
 		<Card className="max-w-6xl w-full p-4">

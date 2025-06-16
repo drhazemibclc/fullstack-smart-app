@@ -53,7 +53,7 @@ export const BookAppointment = ({ data, doctors }: { data: Patient; doctors: Doc
 	const onSubmit: SubmitHandler<z.infer<typeof AppointmentSchema>> = async values => {
 		try {
 			setIsSubmitting(true)
-			const newData = { ...values, patient_id: data?.id! }
+			const newData = { ...values, patient_id: data?.id ?? 'N/A' }
 
 			const res = await createNewAppointment(newData)
 
@@ -136,10 +136,10 @@ export const BookAppointment = ({ data, doctors }: { data: Patient; doctors: Doc
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent className="">
-													{physicians?.map((i, id) => (
+													{physicians?.map(i => (
 														<SelectItem
 															className="p-2"
-															key={id}
+															key={i.id}
 															value={i.id}
 														>
 															<div className="flex flex-row gap-2 p-2">

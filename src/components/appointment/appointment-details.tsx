@@ -12,7 +12,6 @@ interface AppointmentDetailsProps {
 }
 export const AppointmentDetails = ({
 	id,
-	patient_id,
 	appointment_date,
 	time,
 	notes,

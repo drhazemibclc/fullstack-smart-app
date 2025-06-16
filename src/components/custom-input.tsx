@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { Control } from 'react-hook-form'
+import type { Control, ControllerRenderProps, FieldValues } from 'react-hook-form'
 
 import { Checkbox } from './ui/checkbox'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
@@ -10,10 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from './ui/switch'
 import { Textarea } from './ui/textarea'
 
-interface InputProps {
+interface InputProps<T extends FieldValues> {
 	type: 'input' | 'select' | 'checkbox' | 'switch' | 'radio' | 'textarea'
-	control: Control<any>
-	name: string
+	control: Control<T>
+	name: keyof T & string
 	label?: string
 	placeholder?: string
 	inputType?: 'text' | 'email' | 'password' | 'date'
@@ -21,7 +21,13 @@ interface InputProps {
 	defaultValue?: string
 }
 
-const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
+const RenderInput = <T extends FieldValues>({
+	field,
+	props,
+}: {
+	field: ControllerRenderProps<T>
+	props: InputProps<T>
+}) => {
 	switch (props.type) {
 		case 'input':
 			return (
@@ -38,7 +44,7 @@ const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
 			return (
 				<Select
 					onValueChange={field.onChange}
-					value={field?.value}
+					value={field.value}
 				>
 					<FormControl>
 						<SelectTrigger>
@@ -46,9 +52,9 @@ const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
 						</SelectTrigger>
 					</FormControl>
 					<SelectContent>
-						{props.selectList?.map((i, id) => (
+						{props.selectList?.map(i => (
 							<SelectItem
-								key={id}
+								key={i.value}
 								value={i.value}
 							>
 								{i.label}
@@ -62,8 +68,9 @@ const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
 			return (
 				<div className="items-top flex space-x-2">
 					<Checkbox
+						checked={!!field.value}
 						id={props.name}
-						onCheckedChange={e => field.onChange(e === true || null)}
+						onCheckedChange={e => field.onChange(e === true)}
 					/>
 					<div className="grid gap-1.5 leading-none">
 						<label
@@ -84,12 +91,13 @@ const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
 					<RadioGroup
 						className="flex gap-4"
 						defaultValue={props.defaultValue}
-						onChange={field.onChange}
+						onValueChange={field.onChange}
+						value={field.value}
 					>
-						{props?.selectList?.map((i, id) => (
+						{props.selectList?.map(i => (
 							<div
 								className="flex items-center w-full"
-								key={id}
+								key={i.value}
 							>
 								<RadioGroupItem
 									className="peer sr-only"
@@ -113,72 +121,87 @@ const RenderInput = ({ field, props }: { field: any; props: InputProps }) => {
 				<FormControl>
 					<Textarea
 						placeholder={props.placeholder}
-						type={props.inputType}
 						{...field}
 					/>
 				</FormControl>
 			)
+
+		case 'switch':
+			// If you want to support 'switch' here, add implementation or remove from InputProps.type
+			return null
+
+		default:
+			return null
 	}
 }
-export const CustomInput = (props: InputProps) => {
+
+export const CustomInput = <T extends FieldValues>(props: InputProps<T>) => {
 	const { name, label, control, type } = props
 
 	return (
-		// <div className="w-full pt-6">
 		<FormField
-			control={control}
+			control={control as unknown as Control<FieldValues>} // Cast here
 			name={name}
 			render={({ field }) => (
 				<FormItem className="w-full">
 					{type !== 'radio' && type !== 'checkbox' && <FormLabel>{label}</FormLabel>}
 					<RenderInput
 						field={field}
-						props={props}
+						props={props as InputProps<FieldValues>}
 					/>
 					<FormMessage />
 				</FormItem>
 			)}
 		/>
-		// </div>
 	)
 }
-
 type Day = {
 	day: string
 	start_time?: string
 	close_time?: string
 }
+
 interface SwitchProps {
 	data: { label: string; value: string }[]
 	setWorkSchedule: React.Dispatch<React.SetStateAction<Day[]>>
 }
 
 export const SwitchInput = ({ data, setWorkSchedule }: SwitchProps) => {
-	const handleChange = (day: string, field: any, value: string) => {
+	// field is keyof Day or boolean true for toggle on/off
+	const handleChange = (day: string, field: keyof Day | true, value?: string) => {
 		setWorkSchedule(prevDays => {
 			const dayExist = prevDays.find(d => d.day === day)
 
 			if (dayExist) {
+				// Update existing day
+				if (field === true) {
+					// Toggle off: remove the day
+					return prevDays.filter(d => d.day !== day)
+				}
 				return prevDays.map(d => (d.day === day ? { ...d, [field]: value } : d))
 			}
+
+			// Add new day if toggled on
 			if (field === true) {
 				return [...prevDays, { day, start_time: '09:00', close_time: '17:00' }]
 			}
+
+			// Add new day with specific field update
 			return [...prevDays, { day, [field]: value }]
 		})
 	}
 
 	return (
-		<div className="">
-			{data?.map((el, id) => (
+		<div>
+			{data?.map(el => (
 				<div
-					className="w-full  flex items-center space-y-3 border-t border-t-gray-200  py-3"
-					key={id}
+					className="w-full flex items-center space-y-3 border-t border-t-gray-200 py-3"
+					key={el.label}
 				>
 					<Switch
 						className="data-[state=checked]:bg-blue-600 peer"
 						id={el.value}
-						onCheckedChange={_e => handleChange(el.value, true, '09:00')}
+						onCheckedChange={checked => handleChange(el.value, true, checked ? '09:00' : undefined)}
 					/>
 					<Label
 						className="w-20 capitalize"
@@ -191,7 +214,7 @@ export const SwitchInput = ({ data, setWorkSchedule }: SwitchProps) => {
 						Not working on this day
 					</Label>
 
-					<div className="hidden peer-data-[state=checked]:flex items-center gap-2 pl-6:">
+					<div className="hidden peer-data-[state=checked]:flex items-center gap-2 pl-6">
 						<Input
 							defaultValue="09:00"
 							name={`${el.label}.start_time`}

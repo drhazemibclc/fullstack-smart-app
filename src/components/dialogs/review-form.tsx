@@ -114,6 +114,7 @@ export const ReviewForm = ({ staffId }: { staffId: string }) => {
 													<button
 														key={star}
 														onClick={() => field.onChange(star)}
+														type="button"
 													>
 														<StarIcon
 															className={cn(

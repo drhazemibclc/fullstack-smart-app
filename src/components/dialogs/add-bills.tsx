@@ -23,10 +23,11 @@ interface DataProps {
 	appId?: string | number
 	servicesData: Services[]
 }
+
 export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const router = useRouter()
-	const [data, setData] = useState<any>()
+	const [data, setData] = useState<{ value: string; label: string }[] | undefined>()
 
 	const form = useForm<z.infer<typeof PatientBillSchema>>({
 		resolver: zodResolver(PatientBillSchema),
@@ -48,14 +49,12 @@ export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 
 			if (resp.success) {
 				toast.success('Patient bill added successfully!')
-
 				router.refresh()
-
 				form.reset()
 			} else if (resp.error) {
 				toast.error(resp.msg)
 			}
-		} catch (_error) {
+		} catch {
 			toast.error('Something went wrong. Please try again.')
 		} finally {
 			setIsLoading(false)
@@ -65,7 +64,7 @@ export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 	useEffect(() => {
 		if (servicesData) {
 			setData(
-				servicesData?.map(service => ({
+				servicesData.map(service => ({
 					value: service.id.toString(),
 					label: service.service_name,
 				})),
@@ -80,14 +79,14 @@ export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 		if (selectedService) {
 			const unit_cost = servicesData.find(el => el.id === Number(selectedService))
 
-			if (unit_cost) {
-				form.setValue('unit_cost', unit_cost?.price.toFixed(2))
-			}
-			if (quantity) {
-				form.setValue('total_cost', (Number(quantity) * unit_cost?.price!).toFixed(2))
+			if (unit_cost && unit_cost.price !== undefined) {
+				form.setValue('unit_cost', unit_cost.price.toFixed(2))
+				if (quantity) {
+					form.setValue('total_cost', (Number(quantity) * unit_cost.price).toFixed(2))
+				}
 			}
 		}
-	}, [selectedService, quantity, form.setValue, servicesData.find])
+	}, [selectedService, quantity, form.setValue, servicesData])
 
 	return (
 		<>
@@ -108,7 +107,7 @@ export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 					<CardHeader className="px-0">
 						<DialogTitle>Add Patient Bill</DialogTitle>
 						<CardDescription>
-							Ensure accurate readings are perform as this may affect the diagnosis and other
+							Ensure accurate readings are performed as this may affect the diagnosis and other
 							medical processes.
 						</CardDescription>
 					</CardHeader>
@@ -124,7 +123,7 @@ export const AddBills = ({ id, appId, servicesData }: DataProps) => {
 									label="Service Name"
 									name="service_id"
 									placeholder="Select service"
-									selectList={data!}
+									selectList={data ?? []}
 									type="select"
 								/>
 								<CustomInput

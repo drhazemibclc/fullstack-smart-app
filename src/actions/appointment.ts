@@ -6,8 +6,9 @@ import type { AppointmentStatus } from '@prisma/client'
 import type { VitalSignsFormData } from '@/components/dialogs/add-vital-signs'
 import db from '@/lib/db'
 import { AppointmentSchema, VitalSignsSchema } from '@/lib/schema'
+import type { AppointmentInput } from '@/types/data-types'
 
-export async function createNewAppointment(data: any) {
+export async function createNewAppointment(data: AppointmentInput) {
 	try {
 		const validatedData = AppointmentSchema.safeParse(data)
 

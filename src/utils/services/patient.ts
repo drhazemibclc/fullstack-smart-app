@@ -264,7 +264,7 @@ export async function getAllPatients({
 				include: {
 					appointments: {
 						select: {
-							medical: {
+							medicalRecords: {
 								select: { created_at: true, treatment_plan: true },
 								orderBy: { created_at: 'desc' },
 								take: 1,

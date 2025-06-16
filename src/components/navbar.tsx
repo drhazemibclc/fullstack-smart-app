@@ -6,10 +6,9 @@ import { usePathname } from 'next/navigation'
 
 export const Navbar = () => {
 	const user = useAuth()
+	const pathname = usePathname() // <-- hook at top level
 
-	function formatPathName(): string {
-		const pathname = usePathname()
-
+	function formatPathName(pathname: string): string {
 		if (!pathname) return 'Overview'
 
 		const splitRoute = pathname.split('/')
@@ -22,7 +21,7 @@ export const Navbar = () => {
 		return formattedPath
 	}
 
-	const path = formatPathName()
+	const path = formatPathName(pathname)
 
 	return (
 		<div className="p-5 flex justify-between bg-white">

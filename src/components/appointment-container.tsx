@@ -9,10 +9,12 @@ export const AppointmentContainer = async ({ id }: { id: string }) => {
 
 	return (
 		<div>
-			<BookAppointment
-				data={data!}
-				doctors={doctors!}
-			/>
+			{data && doctors && (
+				<BookAppointment
+					data={data}
+					doctors={doctors}
+				/>
+			)}
 		</div>
 	)
 }

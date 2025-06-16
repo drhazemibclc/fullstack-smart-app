@@ -16,7 +16,17 @@ import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '
 interface ActionDialogProps {
 	type: 'doctor' | 'staff' | 'delete'
 	id: string
-	data?: any
+	data?: {
+		img?: string
+		name?: string
+		colorCode?: string
+		role?: string
+		email?: string
+		phone?: string
+		address?: string
+		department?: string
+		license_number?: string
+	}
 	deleteType?: 'doctor' | 'staff' | 'patient' | 'payment' | 'bill'
 }
 export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) => {
@@ -28,7 +38,12 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 			try {
 				setLoading(true)
 
-				const res = await deleteDataById(id, deleteType!)
+				if (!deleteType) {
+					toast.error('Delete type is not specified')
+					setLoading(false)
+					return
+				}
+				const res = await deleteDataById(id, deleteType)
 
 				if (res.success) {
 					toast.success('Record deleted successfully')
@@ -36,7 +51,8 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 				} else {
 					toast.error('Failed to delete record')
 				}
-			} catch (_error) {
+			} catch (error) {
+				console.log(error)
 				toast.error('Something went wrong')
 			} finally {
 				setLoading(false)
@@ -48,7 +64,7 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 				<DialogTrigger asChild>
 					<Button
 						className="flex items-center justify-center rounded-full text-red-500"
-						variant={'outline-solid'}
+						variant={'outline'}
 					>
 						<Trash2
 							className="text-red-500"
@@ -61,7 +77,7 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 				<DialogContent>
 					<div className="flex flex-col items-center justify-center py-6">
 						<DialogTitle>
-							<div className="bg-red-200 p-4 rounded-full mb-2">
+							<div className="mb-2 rounded-full bg-red-200 p-4">
 								<FaQuestion
 									className="text-red-500"
 									size={50}
@@ -69,21 +85,21 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 							</div>
 						</DialogTitle>
 
-						<span className="text-xl text-black">Delete Confirmation</span>
+						<span className="text-black text-xl">Delete Confirmation</span>
 						<p className="text-sm">Are you sure you want to delete the selected record?</p>
 
-						<div className="flex justify-center mt-6 items-center gap-x-3">
+						<div className="mt-6 flex items-center justify-center gap-x-3">
 							<DialogClose asChild>
 								<Button
 									className="px-4 py-2"
-									variant={'outline-solid'}
+									variant={'outline'}
 								>
 									Cancel
 								</Button>
 							</DialogClose>
 
 							<Button
-								className="px-4 py-2 text-sm font-medium bg-destructive text-white hover:bg-destructive hover:text-white"
+								className="bg-destructive px-4 py-2 font-medium text-sm text-white hover:bg-destructive hover:text-white"
 								disabled={loading}
 								onClick={handleDelete}
 								variant="outline"
@@ -102,31 +118,31 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 			<Dialog>
 				<DialogTrigger asChild>
 					<Button
-						className="flex items-center justify-center rounded-full text-blue-600/10 text-blue-600 hover:underline"
-						variant={'outline-solid'}
+						className="flex items-center justify-center rounded-full text-blue-600 hover:underline"
+						variant={'outline'}
 					>
 						View
 					</Button>
 				</DialogTrigger>
 
-				<DialogContent className="max-w-[300px] md:max-w-2xl max-h-[90%] p-8 overflow-y-auto">
-					<DialogTitle className="text-lg text-gray-600 font-semibold mb-4">
+				<DialogContent className="max-h-[90%] max-w-[300px] overflow-y-auto p-8 md:max-w-2xl">
+					<DialogTitle className="mb-4 font-semibold text-gray-600 text-lg">
 						Staff Information
 					</DialogTitle>
 
 					<div className="flex justify-between">
-						<div className="flex gap-3 items-center">
+						<div className="flex items-center gap-3">
 							<ProfileImage
-								bgColor={data?.colorCode ?? undefined}
+								bgColor={data?.colorCode ?? '0000'}
 								className="xl:size-20"
-								name={data?.name}
+								name={data?.name ?? ''}
 								textClassName="xl:text-2xl"
-								url={data?.img ?? undefined}
+								url={data?.img ?? ''}
 							/>
 
 							<div className="flex flex-col">
-								<p className="text-xl font-semibold">{data?.name}</p>
-								<span className="text-gray-600 text-sm md:text-base capitalize">
+								<p className="font-semibold text-xl">{data?.name}</p>
+								<span className="text-gray-600 text-sm capitalize md:text-base">
 									{data?.role?.toLowerCase()}
 								</span>
 								<span className="text-blue-500 text-sm">Full-Time</span>
@@ -135,15 +151,15 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 					</div>
 
 					<div className="mt-10 space-y-6">
-						<div className="flex flex-col md:flex-row md:flex-wrap md:items-center  gap-y-4 md:gap-x-0 xl:justify-between">
+						<div className="flex flex-col gap-y-4 md:flex-row md:flex-wrap md:items-center md:gap-x-0 xl:justify-between">
 							{/* <SmallCard label="Full Name" value={data?.name} /> */}
 							<SmallCard
 								label="Email Address"
-								value={data?.email}
+								value={data?.email ?? 'N/A'}
 							/>
 							<SmallCard
 								label="Phone Number"
-								value={data?.phone}
+								value={data?.phone ?? 'N/A'}
 							/>
 						</div>
 
@@ -154,10 +170,10 @@ export const ActionDialog = ({ id, data, type, deleteType }: ActionDialogProps) 
 							/>
 						</div>
 
-						<div className="flex flex-col md:flex-row md:flex-wrap md:items-center  gap-y-4 md:gap-x-0 xl:justify-between">
+						<div className="flex flex-col gap-y-4 md:flex-row md:flex-wrap md:items-center md:gap-x-0 xl:justify-between">
 							<SmallCard
 								label="Role"
-								value={data?.role}
+								value={data?.role ?? 'N/A'}
 							/>
 							<SmallCard
 								label="Department"

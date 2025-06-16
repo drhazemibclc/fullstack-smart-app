@@ -10,7 +10,7 @@ import { ViewAppointment } from '../view-appointment'
 import { Table } from './table'
 
 interface DataProps {
-	data: any[]
+	data: Appointment[]
 }
 const columns = [
 	{ header: 'Info', key: 'name' },
@@ -103,7 +103,7 @@ export const RecentAppointments = ({ data }: DataProps) => {
 
 				<Button
 					asChild
-					variant={'outline-solid'}
+					variant={'outline'}
 				>
 					<Link href="/record/appointments">View All</Link>
 				</Button>

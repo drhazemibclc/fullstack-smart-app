@@ -63,6 +63,7 @@ export const AppointmentSchema = z.object({
 	type: z.string().min(1, 'Select type of appointment'),
 	appointment_date: z.string().min(1, 'Select appointment date'),
 	time: z.string().min(1, 'Select appointment time'),
+	patient_id: z.string().min(1, 'Select patient'),
 	note: z.string().optional(),
 })
 

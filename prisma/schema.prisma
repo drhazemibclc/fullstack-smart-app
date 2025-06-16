@@ -79,12 +79,12 @@ model Patient {
   gender                   Gender   @default(MALE)
   phone                    String   @db.VarChar(20)
   email                    String   @unique @db.VarChar(100)
-  marital_status           MaritalStatus
+  marital_status           String
   address                  String
   emergency_contact_name   String
   emergency_contact_number String   @db.VarChar(20)
-  relation                 String
-  blood_group              BloodGroup?
+  relation                 String?
+  blood_group              String?
   allergies                String?
   medical_conditions       String?
   medical_history          String?
@@ -95,7 +95,7 @@ model Patient {
   medical_consent          Boolean
   img                      String?
   colorCode                String?
-  is_deleted               Boolean  @default(false)
+  is_deleted               Boolean?  @default(false)
   created_by               String?
   updated_by               String?
 
