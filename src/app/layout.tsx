@@ -1,6 +1,7 @@
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
+
+import Providers from '@/app/providers'
 import '../styles/globals.css'
 
 import { geistMono, geistSans } from '@/styles/fonts'
@@ -16,16 +17,17 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<ClerkProvider afterSignOutUrl={'/'}>
-			<html lang="en">
-				<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-					{children}
-					<Toaster
-						position="top-center"
-						richColors
-					/>
-				</body>
-			</html>
-		</ClerkProvider>
+		<html
+			lang="en"
+			suppressHydrationWarning
+		>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				<Providers>{children}</Providers>
+				<Toaster
+					position="top-center"
+					richColors
+				/>
+			</body>
+		</html>
 	)
 }

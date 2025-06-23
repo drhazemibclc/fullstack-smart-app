@@ -1,17 +1,15 @@
-import { auth } from '@clerk/nextjs/server'
+// src/utils/roles.client.ts
+'use client'
 
+import { useSession } from '@/lib/auth/client'
 import type { Roles } from '@/types/globals'
 
-export const checkRole = async (role: Roles) => {
-	const { sessionClaims } = await auth()
-
-	return sessionClaims?.metadata?.role === role.toLowerCase()
+export const checkRole = (role: Roles) => {
+	const session = useSession()
+	return session.data?.user?.role?.toLowerCase() === role.toLowerCase()
 }
 
-export const getRole = async () => {
-	const { sessionClaims } = await auth()
-
-	const role = sessionClaims?.metadata.role?.toLowerCase() || 'patient'
-
-	return role
+export const getRole = () => {
+	const session = useSession()
+	return session.data?.user?.role?.toLowerCase() || 'patient'
 }

@@ -1,13 +1,14 @@
-import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
+import { getSessionServer } from '@/lib/auth/server'
 import { getRole } from '@/utils/roles'
 
 export default async function Home() {
-	const { userId } = await auth()
-	const role = await getRole()
+	const session = await getSessionServer()
+	const userId = session?.user.id ?? null
+	const role = session?.user?.role?.toLowerCase() || 'patient'
 
 	if (userId && role) {
 		redirect(`/${role}`)
@@ -35,7 +36,6 @@ export default async function Home() {
 								<Link href={`/${role}`}>
 									<Button>View Dashboard</Button>
 								</Link>
-								{/* <UserButton /> */}
 							</>
 						) : (
 							<>

@@ -1,7 +1,21 @@
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 import type React from 'react'
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+import { api } from '@/utils/trpc/server'
+
+export const dynamic = 'force-dynamic'
+
+interface AuthLayoutProps {
+	children: React.ReactNode
+}
+
+export default async function AuthLayout({ children }: AuthLayoutProps) {
+	const session = await api.auth.getSession()
+
+	if (session) {
+		redirect('/app')
+	}
 	return (
 		<div className="w-full h-screen flex items-center justify-center">
 			<div className="w-1/2 h-full flex items-center justify-center">{children}</div>
@@ -22,4 +36,3 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
-export default AuthLayout

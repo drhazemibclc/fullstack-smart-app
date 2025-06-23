@@ -1,7 +1,8 @@
 import { generateRandomColor } from "@/utils";
+import { NutritionalStatus, ROLE } from "@prisma/client";
 
-const { PrismaClient } = require("@prisma/client");
-const { fakerDE: faker } = require("@faker-js/faker");
+import { PrismaClient } from "@prisma/client";
+import { fakerDE as faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -9,24 +10,23 @@ async function seed() {
   console.log("Seeding data...");
 
   // Create 3 staff
-  const staffRoles = ["NURSE", "CASHIER", "LAB_TECHNICIAN"];
-  for (const role of staffRoles) {
+ 
     const mobile = faker.phone.number();
 
     await prisma.staff.create({
       data: {
         id: faker.string?.uuid(),
         email: faker.internet.email(),
-        name: faker.name.fullName(),
+        name: faker.person.fullName(),
         phone: mobile,
-        address: faker.address.streetAddress(),
+        address: faker.location.streetAddress(),
         department: faker.company.name(),
-        role: role,
+        role: ROLE.NURSE,
         status: "ACTIVE",
         colorCode: generateRandomColor(),
       },
     });
-  }
+
 
   // Create 10 doctors
   const doctors = [];
@@ -35,26 +35,26 @@ async function seed() {
       data: {
         id: faker.string.uuid(),
         email: faker.internet.email(),
-        name: faker.name.fullName(),
-        specialization: faker.name.jobType(),
-        license_number: faker.string.uuid(),
+        name: faker.person.fullName(),
+        specialization: faker.person.jobType(),
+        licenseNumber: faker.string.uuid(),
         phone: faker.phone.number(),
-        address: faker.address.streetAddress(),
+        address: faker.location.streetAddress(),
         department: faker.company.name(),
-        availability_status: "ACTIVE",
+        availabilityStatus: "ACTIVE",
         colorCode: generateRandomColor(),
-        type: i % 2 === 0 ? "FULL" : "PART",
-        working_days: {
+        jobType: i % 2 === 0 ? "FULL" : "PART",
+        workingDays: {
           create: [
             {
               day: "Monday",
-              start_time: "08:00",
-              close_time: "17:00",
+              startTime: "08:00",
+              closeTime: "17:00",
             },
             {
               day: "Wednesday",
-              start_time: "08:00",
-              close_time: "17:00",
+              startTime: "08:00",
+              closeTime: "17:00",
             },
           ],
         },
@@ -69,23 +69,22 @@ async function seed() {
     const patient = await prisma.patient.create({
       data: {
         id: faker.string.uuid(),
-        first_name: faker.name.firstName(),
-        last_name: faker.name.lastName(),
-        date_of_birth: faker.date.birthdate(),
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        dateOfBirth: faker.date.birthdate(),
         gender: i % 2 === 0 ? "MALE" : "FEMALE",
         phone: faker.phone.number(),
         email: faker.internet.email(),
-        marital_status: i % 3 === 0 ? "Married" : "Single",
-        address: faker.address.streetAddress(),
-        emergency_contact_name: faker.name.fullName(),
-        emergency_contact_number: faker.phone.number(),
-        relation: "Sibling",
-        blood_group: i % 4 === 0 ? "O+" : "A+",
+        address: faker.location.streetAddress(),
+        parentGuardianName:faker.phone.number(),
+parentGuardianPhone:  faker.phone.number(),
+parentGuardianEmail:faker.internet.email(),
+        nutritionalStatus: NutritionalStatus.NORMAL,
+        relationToPatient: "father",
+        bloodGroup: i % 4 === 0 ? "O+" : "A+",
         allergies: faker.lorem.words(2),
-        medical_conditions: faker.lorem.words(3),
-        privacy_consent: true,
-        service_consent: true,
-        medical_consent: true,
+        medicalConditions: faker.lorem.words(3),
+        medicalHistory: faker.lorem.words(3),
         colorCode: generateRandomColor(),
       },
     });
@@ -100,9 +99,9 @@ async function seed() {
 
     await prisma.appointment.create({
       data: {
-        patient_id: patient.id,
-        doctor_id: doctor.id,
-        appointment_date: faker.date.soon(),
+        patientId: patient.id,
+        doctorId: doctor.id,
+        appointmentDate: faker.date.soon(),
         time: "10:00",
         status: i % 4 === 0 ? "PENDING" : "SCHEDULED",
         type: "Checkup",

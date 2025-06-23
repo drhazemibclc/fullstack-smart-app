@@ -1,40 +1,41 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
+// middleware.ts
+// middleware.ts
 
+import { type NextRequest, NextResponse } from 'next/server'
+
+import { getSessionServer } from './lib/auth/server'
 import { routeAccess } from './lib/routes'
 
-const matchers = Object.keys(routeAccess).map(route => ({
-	matcher: createRouteMatcher([route]),
-	allowedRoles: routeAccess[route],
-}))
-
-export default clerkMiddleware(async (auth, req) => {
-	const { userId, sessionClaims } = await auth()
+export async function middleware(req: NextRequest) {
+	const session = await getSessionServer()
 	const url = new URL(req.url)
 
-	const role =
-		userId && sessionClaims?.metadata?.role
-			? sessionClaims.metadata.role
-			: userId
-				? 'patient'
-				: 'sign-in'
+	const role = session?.user?.role ?? 'patient' // default to patient if no role
 
-	const matchingRoute = matchers.find(({ matcher }) => matcher(req))
+	const path = url.pathname
 
-	if (matchingRoute && !matchingRoute.allowedRoles.includes(role)) {
-		// Redirect unauthorized roles to their respective default pages
-		return NextResponse.redirect(new URL(`/${role}`, url.origin))
+	// Match path to routeAccess rule
+	const matchingAccess = Object.entries(routeAccess).find(([pattern]) =>
+		new RegExp(`^${pattern}`).test(path),
+	)
+
+	if (matchingAccess) {
+		const [_, allowedRoles] = matchingAccess
+		if (!allowedRoles.includes(role)) {
+			// Redirect unauthorized role to their homepage
+			return NextResponse.redirect(new URL(`/${role}`, url.origin))
+		}
 	}
 
-	// Continue if the user is authorized
 	return NextResponse.next()
-})
+}
 
+// Apply middleware only to relevant paths
 export const config = {
 	matcher: [
-		// Skip Next.js internals and all static files, unless found in search params
-		'/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-		// Always run for API routes
-		'/(api|trpc)(.*)',
+		// Match everything except static files
+		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|ts|tsx|json|webmanifest)).*)',
+		'/api/:path*',
+		'/trpc/:path*',
 	],
 }

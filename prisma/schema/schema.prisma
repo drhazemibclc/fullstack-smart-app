@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views", "driverAdapters", "relationJoins"]
+  moduleFormat    = "esm"
+    generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+ generator zod {
+   provider                           = "zod-prisma-types"
+   output                             = "../../src/lib/zod"
+   useMultipleFiles                   = true
+   writeBarrelFiles                   = true
+   createInputTypes                   = true
+   createModelTypes                   = true
+   addInputTypeValidation             = true
+   addIncludeType                    = true
+   addSelectType                     = true
+   validateWhereUniqueInput           = true
+   createOptionalDefaultValuesTypes   = true
+   createRelationValuesTypes          = true
+   createPartialTypes                 = true
+   useDefaultValidators              = true
+   coerceDate                        = true
+   writeNullishInModelTypes          = true
+ }
+// generator interface {
+//     provider        = "prisma-generator-typescript-interfaces"
+//   output          = "../../src/types/interfaces.ts" // Relative to schema.prisma
+//   prettier        = true
+//   resolvePrettierConfig = true
+//   modelType       = "interface"
+//   enumType        = "stringUnion"
+//   dateType        = "Date"
+//   bigIntType      = "bigint"
+//   decimalType     = "Decimal"
+//   bytesType       = "Uint8Array"
+//   exportEnums     = true
+//   optionalRelations = true
+//   omitRelations   = false
+//   optionalNullables = true
+// }
