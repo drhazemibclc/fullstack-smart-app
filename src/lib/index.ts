@@ -22,8 +22,33 @@ export const RELATION = [
 export const USER_ROLES = {
 	ADMIN: 'ADMIN' as string,
 	DOCTOR: 'DOCTOR',
-	NURSE: 'NURSE',	
+	NURSE: 'NURSE',
 	PATIENT: 'PATIENT',
 }
 
-export const ADMIN_ROLES = new Set<string>(['ADMIN', 'DOCTOR']);
+export const ADMIN_ROLES = new Set<string>(['ADMIN', 'DOCTOR'])
+
+import { z } from 'zod';
+
+export const formSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }).min(2).max(50),
+  name: z
+    .string()
+    .min(2, { message: 'Name must be at least 2 characters long' })
+    .max(50, { message: 'Name must be at most 50 characters long' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long' })
+    .max(50, { message: 'Password must be at most 50 characters long' }),
+});
+
+export const loginSchema = formSchema.pick({
+  email: true,
+  password: true,
+});
+
+export const signUpSchema = formSchema.pick({
+  email: true,
+  name: true,
+  password: true,
+});

@@ -2,7 +2,8 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import type React from 'react'
 
-import { api } from '@/utils/trpc/server'
+import { getSessionServer } from '@/lib/auth/server' // ← Import directly
+import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic'
 
@@ -11,10 +12,10 @@ interface AuthLayoutProps {
 }
 
 export default async function AuthLayout({ children }: AuthLayoutProps) {
-	const session = await api.auth.getSession()
+	const session = await getSessionServer(await headers()) // ✅ DIRECT, bypass tRPC
 
 	if (session) {
-		redirect('/app')
+		redirect('/doctor')
 	}
 	return (
 		<div className="w-full h-screen flex items-center justify-center">
@@ -35,4 +36,3 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
 		</div>
 	)
 }
-

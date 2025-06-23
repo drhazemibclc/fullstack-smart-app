@@ -7,7 +7,7 @@ import { getSessionServer } from './lib/auth/server'
 import { routeAccess } from './lib/routes'
 
 export async function middleware(req: NextRequest) {
-	const session = await getSessionServer()
+const session = await getSessionServer(req.headers)
 	const url = new URL(req.url)
 
 	const role = session?.user?.role ?? 'patient' // default to patient if no role

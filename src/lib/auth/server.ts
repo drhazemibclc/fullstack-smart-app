@@ -1,15 +1,13 @@
-// src/lib/auth/server.ts
 import { headers } from 'next/headers'
 
 import { auth } from '.'
 
-// Plain async function (not a Next.js Server Action)
-export async function getSessionServer() {
-	const heads = new Headers(await headers())
+export async function getSessionServer(headers: Headers) {
+	const heads = new Headers(headers)
+	heads.set('x-trpc-source', 'server')
 	return await auth.api.getSession({ headers: heads })
 }
-
 export async function getUserServer() {
-	const session = await getSessionServer()
+	const session = await getSessionServer(await headers()) // ✅ CALL headers()
 	return session?.user
 }

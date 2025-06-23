@@ -4,7 +4,7 @@ import superjson from 'superjson'
 
 import type { AppRouter } from '@/server/lib/root'
 
-import { queryClient } from './query-client'
+import { getQueryClient, queryClient } from './query-client'
 
 const trpcClient = createTRPCClient<AppRouter>({
 	links: [
@@ -21,7 +21,8 @@ const trpcClient = createTRPCClient<AppRouter>({
 	],
 })
 
+
 export const trpc = createTRPCOptionsProxy<AppRouter>({
 	client: trpcClient,
-	queryClient,
+	queryClient: getQueryClient(), // Always fresh reference
 })

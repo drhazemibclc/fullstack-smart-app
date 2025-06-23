@@ -12,6 +12,7 @@ export function GoogleLogo({ className, ...props }: SVGProps<SVGSVGElement>) {
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			<path
 				d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
 				fill="#4285F4"
@@ -40,6 +41,7 @@ export function ArrowLeftIcon({ className, ...props }: SVGProps<SVGSVGElement>) 
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			<line
 				className="translate-x-2 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100"
 				x1="5"
@@ -63,6 +65,7 @@ export function ArrowRightIcon({ className, ...props }: SVGProps<SVGSVGElement>)
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			<line
 				className="translate-x-3 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100"
 				x1="5"
@@ -88,6 +91,7 @@ export function DashboardIcon({ className, ...props }: SVGProps<SVGSVGElement>) 
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
 			<path
 				d="M2 6.21c0-1.984 0-2.977.659-3.593S4.379 2 6.5 2s3.182 0 3.841.617C11 3.233 11 4.226 11 6.21v11.58c0 1.984 0 2.977-.659 3.593S8.621 22 6.5 22s-3.182 0-3.841-.617C2 20.767 2 19.774 2 17.79z"
@@ -112,6 +116,7 @@ export function UsersIcon({ className, ...props }: SVGProps<SVGSVGElement>) {
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
 			<circle
 				cx="12"
@@ -138,6 +143,7 @@ export function AnalyticsIcon({ className, ...props }: SVGProps<SVGSVGElement>) 
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
 			<path
 				d="M6.222 4.601a9.5 9.5 0 0 1 1.395-.771c1.372-.615 2.058-.922 2.97-.33c.913.59.913 1.56.913 3.5v1.5c0 1.886 0 2.828.586 3.414s1.528.586 3.414.586H17c1.94 0 2.91 0 3.5.912c.592.913.285 1.599-.33 2.97a9.5 9.5 0 0 1-10.523 5.435A9.5 9.5 0 0 1 6.222 4.601"
@@ -162,6 +168,7 @@ export function SidebarLeftClose({ className, ...props }: SVGProps<SVGSVGElement
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from ProIcons by ProCode - https://github.com/ProCode-Software/proicons/blob/main/LICENSE */}
 			<path
 				d="M3.75 7.25a3.5 3.5 0 0 1 3.5-3.5h9.5a3.5 3.5 0 0 1 3.5 3.5v9.5a3.5 3.5 0 0 1-3.5 3.5h-9.5a3.5 3.5 0 0 1-3.5-3.5zm5.797-3.5v16.5"
@@ -185,6 +192,7 @@ export function SidebarLeftOpen({ className, ...props }: SVGProps<SVGSVGElement>
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from ProIcons by ProCode - https://github.com/ProCode-Software/proicons/blob/main/LICENSE */}
 			<g fill="none">
 				<path
@@ -213,6 +221,7 @@ export function RevenueIcon({ className, ...props }: SVGProps<SVGSVGElement>) {
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
 			<path
 				d="M5.75 7a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5z"
@@ -243,6 +252,7 @@ export function IntegrationsIcon({ className, ...props }: SVGProps<SVGSVGElement
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ */}
 			<path
 				clipRule="evenodd"
@@ -273,6 +283,7 @@ export function DoubleRingIcon({ className, ...props }: SVGProps<SVGSVGElement>)
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			{/* Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE */}
 			<path
 				d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2a8 8 0 0 1 8 8a8 8 0 0 1-8 8a8 8 0 0 1-8-8a8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6a6 6 0 0 0 6 6a6 6 0 0 0 6-6a6 6 0 0 0-6-6m0 2a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4"
@@ -292,6 +303,7 @@ export function ActivityIcon({ className, ...props }: SVGProps<SVGSVGElement>) {
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			<path
 				d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12"
 				fill="currentColor"
@@ -315,6 +327,7 @@ export function WarningCircleIcon({ className, ...props }: SVGProps<SVGSVGElemen
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
+			<title>Path</title>
 			<path
 				d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
 				fill="currentColor"

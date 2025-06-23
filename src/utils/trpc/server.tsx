@@ -1,13 +1,11 @@
 'use server'
-import { createHydrationHelpers } from '@trpc/react-query/rsc';
 
-import {
-	dehydrate,
-	HydrationBoundary,
-	type InfiniteQueryObserverOptions,
-	type QueryKey,
-	type QueryObserverOptions,
+import type {
+	InfiniteQueryObserverOptions,
+	QueryKey,
+	QueryObserverOptions,
 } from '@tanstack/react-query'
+import { createHydrationHelpers } from '@trpc/react-query/rsc'
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import { headers } from 'next/headers'
 import { cache } from 'react'
@@ -21,7 +19,7 @@ import { makeQueryClient } from './query-client'
  * Create the tRPC context with RSC headers
  */
 const createContext = cache(async () => {
-	const heads = new Headers(await headers())
+	const heads = new Headers(await headers()) // ✅ these are now passed into getSessionServer
 	heads.set('x-trpc-source', 'rsc')
 
 	return createTRPCContext({ headers: heads })
@@ -40,41 +38,27 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
 })
 
 /**
- * Hydration for React Query in RSC
- */
-export function HydrateClient(props: { children: React.ReactNode }) {
-	const queryClient = getQueryClient()
-
-	return <HydrationBoundary state={dehydrate(queryClient)}>{props.children}</HydrationBoundary>
-}
-
-/**
  * Prefetch util for tRPC queries in server components
  */
-export function prefetch<TData extends readonly unknown[]>(
+export async function prefetch<TData extends readonly unknown[]>(
 	queryOptions:
 		| QueryObserverOptions<TData, Error, TData, TData, QueryKey>
 		| InfiniteQueryObserverOptions<TData, Error, TData, TData, QueryKey>,
-): void {
+): Promise<void> {
 	const queryClient = getQueryClient()
 
 	if ('getNextPageParam' in queryOptions && typeof queryOptions.getNextPageParam === 'function') {
-		// Infinite query
-		void queryClient.prefetchInfiniteQuery(
+		await queryClient.prefetchInfiniteQuery(
 			queryOptions as InfiniteQueryObserverOptions<TData, Error, TData, TData, QueryKey>,
 		)
 	} else {
-		// Normal query
-		void queryClient.prefetchQuery(
+		await queryClient.prefetchQuery(
 			queryOptions as QueryObserverOptions<TData, Error, TData, TData, QueryKey>,
 		)
 	}
 }
 
 /**
- * Unified API helper
+ * Unified API helper for RSC hydration
  */
-export const { trpc: api } = createHydrationHelpers<AppRouter>(
-  caller,
-  getQueryClient
-);
+export const { trpc: api } = createHydrationHelpers<AppRouter>(caller, getQueryClient)

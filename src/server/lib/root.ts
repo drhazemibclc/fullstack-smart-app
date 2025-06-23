@@ -10,7 +10,7 @@ import { patientRouter } from '../routers/patient'
 import { paymentRouter } from '../routers/payment'
 import { postRouter } from '../routers/post'
 import { staffRouter } from '../routers/staff'
-import { createCallerFactory, createTRPCRouter } from './trpc'
+import { createCallerFactory, createTRPCRouter, protectedProcedure, publicProcedure } from './trpc'
 
 /**
  * This is the primary router for your server.
@@ -18,6 +18,19 @@ import { createCallerFactory, createTRPCRouter } from './trpc'
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+	check: publicProcedure.query(() => {
+		return {
+			ok: true,
+			message: 'API is healthy',
+			timestamp: new Date().toISOString(),
+		}
+	}),
+	privateData: protectedProcedure.query(({ ctx }) => {
+		return {
+			message: 'This is private',
+			user: ctx.session.user,
+		}
+	}),
 	admin: adminRouter,
 	appointment: appointmentRouter,
 	auth: authRouter,

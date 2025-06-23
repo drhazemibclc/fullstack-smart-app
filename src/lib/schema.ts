@@ -179,23 +179,23 @@ export const ServicesSchema = z.object({
 	description: z.string({ message: 'Service description is required' }),
 })
 
-import * as InputType from './zod/inputTypeSchemas';
+import * as InputType from './zod/inputTypeSchemas'
 
 export const PatientCreateCombinedInputSchema = z.object({
-  data: InputType.PatientCreateInputSchema,
-  pid: z.union([
-    z.literal('new-patient'),
-    z.string().uuid('Invalid user ID format for existing patient'),
-  ]), // Allows "new-patient" or existing UUID
-});
+	data: InputType.PatientCreateInputSchema,
+	pid: z.union([
+		z.literal('new-patient'),
+		z.string().uuid('Invalid user ID format for existing patient'),
+	]), // Allows "new-patient" or existing UUID
+})
 
 // Define the specific input schema for the 'update' mutation
 export const PatientUpdateCombinedInputSchema = z.object({
-  data: InputType.PatientCreateInputSchema, // Use partial for updates where not all fields may be sent
-  pid: z.string().uuid('Invalid patient ID format'), // PID is always a UUID for update
-});
+	data: InputType.PatientCreateInputSchema, // Use partial for updates where not all fields may be sent
+	pid: z.string().uuid('Invalid patient ID format'), // PID is always a UUID for update
+})
 
 // Define a common success message output schema
 export const SuccessOutputSchema = z.object({
-  msg: z.string(),
-});
+	msg: z.string(),
+})

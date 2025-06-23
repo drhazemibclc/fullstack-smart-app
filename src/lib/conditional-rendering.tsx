@@ -1,48 +1,47 @@
-import React, { Children, type ReactElement, type ReactNode } from 'react';
+import React, { Children, type ReactElement, type ReactNode } from 'react'
 
 interface ShowProps {
-	children: ReactNode;
+	children: ReactNode
 }
 
 interface ConditionalChildProps {
-	condition?: boolean;
-	render?: ReactNode;
-	children: ReactNode;
+	condition?: boolean
+	render?: ReactNode
+	children: ReactNode
 }
 
 interface WhenProps {
-	condition: boolean;
-	children: ReactNode;
+	condition: boolean
+	children: ReactNode
 }
 
 interface ElseProps {
-	render?: ReactNode;
-	children: ReactNode;
+	render?: ReactNode
+	children: ReactNode
 }
 
 function Show(props: ShowProps) {
-	let when: ReactElement | null = null;
-	let otherwise: ReactElement | null = null;
+	let when: ReactElement | null = null
+	let otherwise: ReactElement | null = null
 
 	Children.forEach(props.children, (child: ReactNode) => {
 		// Type guard to ensure child is a ReactElement with props
-		if (!React.isValidElement(child)) return;
+		if (!React.isValidElement(child)) return
 
-		const childElement = child as ReactElement<ConditionalChildProps>;
+		const childElement = child as ReactElement<ConditionalChildProps>
 
 		if (childElement.props.condition === undefined) {
-			otherwise = childElement;
+			otherwise = childElement
 		} else if (!when && childElement.props.condition === true) {
-			when = childElement;
+			when = childElement
 		}
-	});
+	})
 
-	return when || otherwise;
+	return when || otherwise
 }
 
-Show.When = ({ condition, children }: WhenProps): ReactNode =>
-	condition ? children : null;
-Show.Else = ({ render, children }: ElseProps): ReactNode => render || children;
+Show.When = ({ condition, children }: WhenProps): ReactNode => (condition ? children : null)
+Show.Else = ({ render, children }: ElseProps): ReactNode => render || children
 
-export { Show };
-export type { ShowProps, WhenProps, ElseProps };
+export { Show }
+export type { ShowProps, WhenProps, ElseProps }

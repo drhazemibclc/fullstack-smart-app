@@ -33,8 +33,8 @@ import {
 import { Textarea } from '../ui/textarea'
 
 export const reviewSchema = z.object({
-	patient_id: z.string(),
-	staff_id: z.string(),
+	patientId: z.string(),
+	staffId: z.string(),
 	rating: z.number().min(1).max(5),
 	comment: z
 		.string()
@@ -52,8 +52,8 @@ export const ReviewForm = ({ staffId }: { staffId: string }) => {
 	const form = useForm<ReviewFormValues>({
 		resolver: zodResolver(reviewSchema),
 		defaultValues: {
-			patient_id: user?.userId as string,
-			staff_id: staffId,
+			patientId: user?.userId as string,
+			staffId: staffId,
 			rating: 1,
 			comment: '',
 		},

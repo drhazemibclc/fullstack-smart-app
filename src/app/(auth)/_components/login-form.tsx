@@ -3,19 +3,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleAlertIcon, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { GoogleLogo } from '@/components/icons';
-import {AlertDismissable} from '@/components/ui/alert-dismissable'
+import { GoogleLogo } from '@/components/icons'
+import { AlertDismissable } from '@/components/ui/alert-dismissable'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {SectionDivider} from '@/components/ui/section-divider'
-import {Spinner} from '@/components/ui/spinner' // ✅ your custom loading spinner
+import { SectionDivider } from '@/components/ui/section-divider'
+import { Spinner } from '@/components/ui/spinner' // ✅ your custom loading spinner
 import { ADMIN_ROLES } from '@/lib'
 import { authClient } from '@/lib/auth/client'
 
@@ -150,7 +150,7 @@ export default function SignIn() {
 										<FormControl>
 											<Input
 												disabled={loading}
- 												placeholder="Password"
+												placeholder="Password"
 												type="password"
 												{...field}
 											/>

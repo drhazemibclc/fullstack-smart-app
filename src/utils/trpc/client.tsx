@@ -14,12 +14,17 @@ import { getQueryClient } from './query-client'
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>()
 
 function getUrl() {
-	const base = (() => {
-		if (typeof window !== 'undefined') return ''
-		if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
-		return process.env.NEXT_PUBLIC_SERVER_URL
-	})()
-	return `${base}/trpc`
+	if (typeof window !== 'undefined') return '/trpc'
+
+	if (process.env.VERCEL_URL) {
+		return `https://${process.env.VERCEL_URL}/trpc`
+	}
+
+	if (process.env.NEXT_PUBLIC_SERVER_URL) {
+		return `${process.env.NEXT_PUBLIC_SERVER_URL}/trpc`
+	}
+
+	throw new Error('Missing server URL')
 }
 export function TRPCReactProvider(
 	props: Readonly<{

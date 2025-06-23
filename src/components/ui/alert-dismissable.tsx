@@ -1,7 +1,9 @@
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
-import { X } from 'lucide-react';
-import { Button } from './button';
+import { cva } from 'class-variance-authority'
+import { X } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+import { Button } from './button'
 
 const alertDisimissableVariant = cva(
 	'relative flex items-start space-x-2 rounded-md border p-2 pr-9 text-sm',
@@ -9,8 +11,7 @@ const alertDisimissableVariant = cva(
 		variants: {
 			variant: {
 				default: 'border-input text-muted-foreground dark:text-white',
-				error:
-					'border-red-500 bg-red-500/5 text-red-500 dark:bg-red-500/20 dark:text-red-200',
+				error: 'border-red-500 bg-red-500/5 text-red-500 dark:bg-red-500/20 dark:text-red-200',
 				success:
 					'border-green-600 bg-green-500/5 text-green-600 dark:bg-green-500/20 dark:text-green-200',
 				warning:
@@ -22,14 +23,14 @@ const alertDisimissableVariant = cva(
 			variant: 'default',
 		},
 	},
-);
+)
 
 interface AlertDismissableProps {
-	className?: string;
-	variant?: 'default' | 'error' | 'success' | 'warning' | 'info';
-	show: boolean;
-	handleShow: (show: boolean | ((prevShow: boolean) => boolean)) => void;
-	children: React.ReactNode;
+	className?: string
+	variant?: 'default' | 'error' | 'success' | 'warning' | 'info'
+	show: boolean
+	handleShow: (show: boolean | ((prevShow: boolean) => boolean)) => void
+	children: React.ReactNode
 }
 
 const AlertDismissable = ({
@@ -41,29 +42,29 @@ const AlertDismissable = ({
 	...props
 }: AlertDismissableProps) => {
 	const toggleAlert = () => {
-		handleShow((prevShow) => !prevShow);
-	};
+		handleShow(prevShow => !prevShow)
+	}
 
 	return (
 		show && (
 			<div
+				className={cn(alertDisimissableVariant({ variant }), className)}
 				data-slot="alert"
 				role="alert"
-				className={cn(alertDisimissableVariant({ variant }), className)}
 				{...props}
 			>
 				{children}
 				<Button
-					variant="ghost"
-					size="icon"
 					className="absolute top-1.5 right-1 h-6 w-6 hover:bg-muted"
 					onClick={toggleAlert}
+					size="icon"
+					variant="ghost"
 				>
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
 		)
-	);
-};
+	)
+}
 
-export { AlertDismissable, alertDisimissableVariant };
+export { AlertDismissable, alertDisimissableVariant }

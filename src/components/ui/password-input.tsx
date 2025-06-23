@@ -1,44 +1,43 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from 'lucide-react';
-import * as React from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
-function PasswordInput({
-	className,
-	type,
-	...props
-}: React.ComponentProps<'input'>) {
-	const [showPassword, setShowPassword] = React.useState(false);
-	const disabled =
-		props.value === '' || props.value === undefined || props.disabled;
+function PasswordInput({ className, type, ...props }: React.ComponentProps<'input'>) {
+	const [showPassword, setShowPassword] = React.useState(false)
+	const disabled = props.value === '' || props.value === undefined || props.disabled
 	return (
 		<>
 			<div className="relative">
 				<Input
-					type={showPassword ? 'text' : 'password'}
 					className={cn('hide-password-toggle relative pr-10', className)}
+					type={showPassword ? 'text' : 'password'}
 					{...props}
 				/>
 				<Button
+					className="absolute top-[1px] right-[1px] bottom-[1px] h-[calc(100%_-_2px)] px-3 py-2 hover:bg-secondary"
+					disabled={disabled}
+					onClick={() => setShowPassword(prev => !prev)}
+					size="sm"
 					type="button"
 					variant="ghost"
-					size="sm"
-					className="absolute top-[1px] right-[1px] bottom-[1px] h-[calc(100%_-_2px)] px-3 py-2 hover:bg-secondary"
-					onClick={() => setShowPassword((prev) => !prev)}
-					disabled={disabled}
 				>
 					{showPassword && !disabled ? (
-						<EyeOffIcon size={18} aria-hidden="true" />
+						<EyeOffIcon
+							aria-hidden="true"
+							size={18}
+						/>
 					) : (
-						<EyeIcon size={18} aria-hidden="true" />
+						<EyeIcon
+							aria-hidden="true"
+							size={18}
+						/>
 					)}
-					<span className="sr-only">
-						{showPassword ? 'Hide password' : 'Show password'}
-					</span>
+					<span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
 				</Button>
 
 				{/* hides browsers password toggles */}
@@ -91,7 +90,7 @@ function PasswordInput({
 				</fieldset>
 			)} */}
 		</>
-	);
+	)
 }
 
-export { PasswordInput };
+export { PasswordInput }
